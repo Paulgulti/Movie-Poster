@@ -6,9 +6,12 @@ import Header from './Components/Header'
 import ContainerHeading from './Components/ContainerHeading'
 import Favourites from './Components/Favourites'
 import { Button } from 'react-bootstrap'
+import Hero from './Components/Hero'
 
 
 function App() {
+  
+  const apiKey = import.meta.env.VITE_API_KEY
 
   const [search, setSearch] = useState("")
   const [fetchSearchResult, setFetchSearchResult] = useState("")
@@ -28,7 +31,7 @@ function App() {
   async function searchFilms(movie) {
 
     try {
-      const url = `https://www.omdbapi.com/?s=${movie}&apikey=bbe71058`
+      const url = `https://www.omdbapi.com/?s=${movie}&apikey=${apiKey}`
       const response = await fetch(url)
       // console.log(response)
       const data = await response.json()
@@ -50,14 +53,13 @@ function App() {
           setIsPending(false)
           setErrorMessage(false)
         }
-
-        
       }
 
 
     } catch (error) {
       setErrorMessage(error.message)
-      setSearch("")
+      // setSearch("")
+      setIsPending(false)
       // consol
     }
 
@@ -65,7 +67,7 @@ function App() {
 
   useEffect(() => {
     searchFilms(search)
-    // setIsPending(true)
+    setIsPending(true)
   }, [fetchSearchResult])
 
 
@@ -81,18 +83,19 @@ function App() {
     }))
   }
 
-  // console.log(favourites)
 
   return (
     <>
       <Header search={search} setSearch={setSearch} setIsPending={setIsPending} setFetchSearchResult={setFetchSearchResult} />
+      <Hero/>
+      {isPending && <p className='responsiveness'>Loading...</p>}
       {/* {isPending && search.trim().length !== 0 && "Loading..."} */}
       {errorMessage && <div className='err-message responsiveness'>Movie not found!</div>}
-      {movies && <ContainerHeading value={"Films"} />}
+      {movies &&  <ContainerHeading value={"Films"} />}
       <div className='container responsiveness' >
         {movies && <MoviesList movies={movies} setMovies={setMovies} addToFav={addToFav} removeFav={removeFav} favourites={favourites} />}       
       </div>
-      <ContainerHeading value={"Favourites"} />
+      {favourites.length !== 0 && <ContainerHeading value={"Favourites"} />}
       <div className='container responsiveness'>
         <Favourites favourites={favourites} removeFav={removeFav} />
       </div>

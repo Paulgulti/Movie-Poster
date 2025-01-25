@@ -1,4 +1,5 @@
 import React from 'react'
+import ContainerHeading from './ContainerHeading'
 
 const MoviesList = ({ movies, addToFav, favourites, removeFav }) => {
 

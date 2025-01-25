@@ -11,9 +11,9 @@ const Header = ({ search, setSearch, setIsPending, setFetchSearchResult }) => {
                 onChange={(e)=>{
                   setSearch(e.target.value)
                 }} 
-                placeholder='Search for movie...'
+                placeholder='Search...'
         />
-        <button className='search' onClick={()=>setFetchSearchResult(search)}>search</button>
+        <button className='search' onClick={()=>setFetchSearchResult(search)}>&#128269;</button>
       </div>
       {/* <div className="signin-signup">
 
